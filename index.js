@@ -1,29 +1,33 @@
 const express = require("express")
-const {connection} = require("./config/db")
-const { userRouter } = require("./routes/user.route")
-const { bookRouter } = require("./routes/book.route")
-const { orderRouter } = require("./routes/order.route")
+const cors = require("cors")
+const { connection } = require("./config/db")
+const { jobRouter } = require("./routes/job.route")
 require("dotenv").config()
+
+
 
 const app = express()
 app.use(express.json())
-app.use("/api",userRouter)
-app.use("/api",bookRouter)
-app.use("/api",orderRouter)
+app.use(cors())
 
+app.use("",jobRouter)
+
+
+
+//checking my server is running well or not
 app.get("/",(req,res)=>{
-    res.send("Welcome To The Masai Libreary")
+    res.send("Welcome To Masai Job Application")
 })
 
-
+//starting server 
 app.listen(process.env.port,async()=>{
     try{
-       await connection
-       console.log("Connected to the db/...")
+        await connection
+        console.log("Connected To The DB")
+
     }
     catch(err){
-        console.log(err)
-        console.log("Not connected to the db")
+        console.log("Not connected to the DB")
     }
     console.log(`port is running on the ${process.env.port}`)
 })
